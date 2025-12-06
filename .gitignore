@@ -1,0 +1,7 @@
+# Environment secrets
+.env
+*.env
+*.env.local
+backend-platform/.env
+coding-platform/.env
+config/.env

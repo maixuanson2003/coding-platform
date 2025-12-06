@@ -1,0 +1,73 @@
+version: "3.9"
+
+services:
+  mysql:
+    image: mysql:8.0
+    container_name: env_mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root123
+      MYSQL_DATABASE: leetcode
+      MYSQL_USER: appuser
+      MYSQL_PASSWORD: app123
+    ports:
+      - "3307:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+  rabbitmq:
+    image: rabbitmq:3.12-management
+    container_name: rabbitmq
+    restart: always
+    environment:
+      RABBITMQ_DEFAULT_USER: user
+      RABBITMQ_DEFAULT_PASS: password
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+
+  # ==========================
+  #          C++ ENV
+  # ==========================
+  cpp:
+    image: gcc:latest
+    container_name: env_cpp
+    command: ["sleep", "infinity"]
+    volumes:
+      - ./workspace/cpp:/app
+    working_dir: /app
+
+  # ==========================
+  #          JAVA ENV
+  # ==========================
+  java:
+    image: eclipse-temurin:21
+    container_name: env_java
+    command: ["sleep", "infinity"]
+    volumes:
+      - ./workspace/java:/app
+    working_dir: /app
+
+  # ==========================
+  #        NODEJS ENV
+  # ==========================
+  nodejs:
+    image: node:20
+    container_name: env_nodejs
+    command: ["sleep", "infinity"]
+    volumes:
+      - ./workspace/js:/app
+    working_dir: /app
+
+  # ==========================
+  #        PYTHON ENV
+  # ==========================
+  python:
+    image: python:3.12
+    container_name: env_python
+    command: ["sleep", "infinity"]
+    volumes:
+      - ./workspace/python:/app
+    working_dir: /app
+
+volumes:
+  mysql_data:
