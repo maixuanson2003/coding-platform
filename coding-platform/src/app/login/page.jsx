@@ -11,6 +11,7 @@ export default function Login() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const token = searchParams.get("token");
+  const user_id = searchParams.get("user_id");
 
   const [formData, setFormData] = useState({
     email: "",
@@ -27,6 +28,7 @@ export default function Login() {
     if (!token) return;
 
     localStorage.setItem("token", token);
+    localStorage.setItem("user_id", user_id);
 
     // Xóa token khỏi URL
     router.replace("/login");
