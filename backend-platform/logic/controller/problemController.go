@@ -24,6 +24,7 @@ func NewProblemController(serve *service.ProblemService) *ProblemController {
 }
 
 func (controller *ProblemController) RegisterRoutes(router *mux.Router) {
+	// middle := middleware.Middlewares
 	router.HandleFunc("/problem", middleware.Handle(controller.CreateProblem)).Methods("POST")
 	router.HandleFunc("/problem", middleware.Handle(controller.GetListProblem)).Methods("GET")
 	router.HandleFunc("/problem/{id}", middleware.Handle(controller.GetProblemDetail)).Methods("GET")

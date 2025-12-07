@@ -10,6 +10,7 @@ import (
 	"lietcode/logic/service"
 	"log"
 	"net/http"
+	"strconv"
 
 	"github.com/gorilla/mux"
 	"golang.org/x/oauth2"
@@ -79,8 +80,9 @@ func (controller *AuthController) GoogleCallback(w http.ResponseWriter, r *http.
 	dataMap, _ := dataResp.Data.(map[string]interface{})
 
 	jwtToken, _ := dataMap["token"].(string)
-
-	redirectURL := "http://localhost:3000/login?token=" + jwtToken
+	userResponse := dataMap["user"].(dto.UserResponse)
+	userIDStr := strconv.Itoa(int(userResponse.Id))
+	redirectURL := "http://localhost:3000/login?token=" + jwtToken + "&" + "user_id=" + userIDStr
 	http.Redirect(w, r, redirectURL, http.StatusTemporaryRedirect)
 	return nil
 
@@ -130,8 +132,10 @@ func (controller *AuthController) GitHubCallback(w http.ResponseWriter, r *http.
 
 	jwtToken, _ := dataMap["token"].(string)
 
-	// 8. Redirect FE kèm token
-	redirectURL := "http://localhost:3000/login?token=" + jwtToken
+	userResponse := dataMap["user"].(dto.UserResponse)
+	userIDStr := strconv.Itoa(int(userResponse.Id))
+
+	redirectURL := "http://localhost:3000/login?token=" + jwtToken + "&" + "user_id=" + userIDStr
 	http.Redirect(w, r, redirectURL, http.StatusTemporaryRedirect)
 
 	return nil
